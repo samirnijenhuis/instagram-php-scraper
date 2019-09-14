@@ -47,6 +47,15 @@ class Location extends AbstractModel
     protected $isLoaded = false;
 
     /**
+     * @var int
+     */
+    protected $mediaCount;
+
+    /**
+     * @var int
+     */
+    protected $mediaCountTopPost;
+    /**
      * @var 
      */
     protected $modified;
@@ -105,5 +114,38 @@ class Location extends AbstractModel
     public function getModified()
     {
         return $this->modified;
+    }
+    
+    /** 
+     * @return mixed
+     */
+    public function getMediaCount()
+    {
+        return $this->mediaCount;
+    }
+
+    /** 
+     * @return mixed
+     */
+    public function getMediaCountTopPost()
+    {
+        return $this->mediaCountTopPost;
+    }
+    
+    protected function initPropertiesCustom($value, $prop, $arr)
+    {
+        if(array_key_exists($prop, self::$initPropertiesMap)){
+            $this->{self::$initPropertiesMap[$prop]} = $value;
+        }
+
+        switch($prop) {
+            case 'edge_location_to_media':
+                $this->mediaCount = $arr[$prop]['count'];
+                break;
+            case 'edge_location_to_top_posts':
+                $this->mediaCountTopPost = $arr[$prop]['count'];
+                break;
+        }
+
     }
 }
