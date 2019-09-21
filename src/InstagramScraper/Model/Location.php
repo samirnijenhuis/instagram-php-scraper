@@ -59,6 +59,17 @@ class Location extends AbstractModel
      * @var 
      */
     protected $modified;
+    
+    /**
+     * @var
+     */
+    protected $address;
+    
+    /**
+     * @var
+     */
+    protected $cityName;
+    
 
     /**
      * @return mixed
@@ -132,6 +143,22 @@ class Location extends AbstractModel
         return $this->mediaCountTopPost;
     }
     
+    /** 
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+    
+    /** 
+     * @return mixed
+     */
+    public function getCityName()
+    {
+        return $this->cityName;
+    }
+    
     protected function initPropertiesCustom($value, $prop, $arr)
     {
         if(array_key_exists($prop, self::$initPropertiesMap)){
@@ -144,6 +171,10 @@ class Location extends AbstractModel
                 break;
             case 'edge_location_to_top_posts':
                 $this->mediaCountTopPost = $arr[$prop]['count'];
+                break;
+            case 'address_json':
+                $this->cityName = json_decode($arr[$prop], true)['city_name'];
+                $this->address = json_decode($arr[$prop], true)['street_address'];
                 break;
         }
 
